@@ -10,14 +10,14 @@ const COURSE_VIDEO = "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOtt
 const easeOut = [0.16, 1, 0.3, 1] as const;
 const cardEase = [0.22, 1, 0.36, 1] as const;
 
-export function WordsPullUp({ text, showAsterisk = false, className = "" }: { text: string; showAsterisk?: boolean; className?: string }) {
+export function WordsPullUp({ text, showAsterisk = false, className = "", animateOnMount = false }: { text: string; showAsterisk?: boolean; className?: string; animateOnMount?: boolean }) {
   const ref = useRef<HTMLSpanElement>(null);
   const visible = useInView(ref, { once: true });
   return (
     <span ref={ref} className={`inline-flex flex-wrap ${className}`}>
       {text.split(" ").map((word, index, all) => (
         <span key={`${word}-${index}`} className="relative inline-block overflow-hidden pb-[0.08em] pr-[0.12em]">
-          <motion.span initial={{ y: 20, opacity: 0 }} animate={visible ? { y: 0, opacity: 1 } : {}} transition={{ duration: 0.75, delay: index * 0.08, ease: easeOut }} className="relative inline-block">
+          <motion.span initial={{ y: 20, opacity: 0 }} animate={visible || animateOnMount ? { y: 0, opacity: 1 } : {}} transition={{ duration: 0.75, delay: index * 0.08, ease: easeOut }} className="relative inline-block">
             {word}{showAsterisk && index === all.length - 1 ? <sup className="absolute top-[0.65em] -right-[0.3em] text-[0.31em] text-sun">*</sup> : null}
           </motion.span>
         </span>
@@ -54,7 +54,7 @@ export function Navbar() {
 }
 
 export function Hero() {
-  return <section className="h-screen p-4 md:p-6"><div className="relative h-full overflow-hidden rounded-2xl bg-panel md:rounded-[2rem]"><video autoPlay loop muted playsInline preload="metadata" className="absolute inset-0 size-full object-cover" aria-label="Cinematic creative production reel"><source src={HERO_VIDEO} type="video/mp4" /></video><div className="noise-overlay pointer-events-none absolute inset-0 opacity-70 mix-blend-overlay" /><div className="absolute inset-0 bg-gradient-to-b from-ink/30 via-transparent to-ink/80" /><Navbar /><div className="absolute inset-x-0 bottom-0 z-10 grid grid-cols-1 items-end gap-5 px-4 pb-5 sm:px-6 md:grid-cols-12 md:px-8 md:pb-8 lg:px-10"><h1 className="col-span-1 min-w-0 text-[26vw] font-medium leading-[0.85] tracking-[-0.07em] text-cream sm:text-[24vw] md:col-span-8 md:text-[22vw] lg:text-[20vw] xl:text-[19vw] 2xl:text-[20vw]"><WordsPullUp text="Cool Guru" showAsterisk /></h1><div className="col-span-1 mb-1 max-w-md md:col-span-4 md:mb-4"><motion.p initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.8, delay: 0.5, ease: easeOut }} className="mb-5 text-xs leading-[1.2] text-primary/70 sm:text-sm md:text-base">Learn in-demand creative skills through practical learning, real-world projects and expert guidance. Build better skills and bigger opportunities across photography, videography, editing and digital creativity.</motion.p><motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.8, delay: 0.7, ease: easeOut }}><ArrowCTA href="#courses">Explore Courses</ArrowCTA></motion.div></div></div></div></section>;
+  return <section className="h-screen p-4 md:p-6"><div className="relative h-full overflow-hidden rounded-2xl bg-panel md:rounded-[2rem]"><img src={directorPortrait} alt="" aria-hidden="true" width={1408} height={1760} className="absolute inset-0 size-full object-cover object-center opacity-65" /><video autoPlay loop muted playsInline preload="metadata" poster={directorPortrait} className="absolute inset-0 size-full object-cover opacity-80 mix-blend-screen" aria-label="Cinematic creative production reel"><source src={HERO_VIDEO} type="video/mp4" /></video><div className="noise-overlay pointer-events-none absolute inset-0 opacity-70 mix-blend-overlay" /><div className="absolute inset-0 bg-gradient-to-b from-ink/30 via-transparent to-ink/80" /><Navbar /><div className="absolute inset-x-0 bottom-0 z-10 grid grid-cols-1 items-end gap-3 px-4 pb-4 sm:gap-5 sm:px-6 md:grid-cols-12 md:px-8 md:pb-8 lg:px-10"><h1 className="col-span-1 min-w-0 text-[26vw] font-medium leading-[0.85] tracking-[-0.07em] text-cream sm:text-[24vw] md:col-span-8 md:text-[22vw] lg:text-[20vw] xl:text-[19vw] 2xl:text-[20vw]"><WordsPullUp text="Cool Guru" showAsterisk animateOnMount /></h1><div className="col-span-1 mb-1 max-w-md md:col-span-4 md:mb-4"><motion.p initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.8, delay: 0.5, ease: easeOut }} className="mb-3 text-xs leading-[1.2] text-primary/70 sm:mb-5 sm:text-sm md:text-base">Learn in-demand creative skills through practical learning, real-world projects and expert guidance. Build better skills and bigger opportunities across photography, videography, editing and digital creativity.</motion.p><motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.8, delay: 0.7, ease: easeOut }}><ArrowCTA href="#courses">Explore Courses</ArrowCTA></motion.div></div></div></div></section>;
 }
 
 export function Instructor() {
